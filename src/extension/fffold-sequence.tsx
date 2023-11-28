@@ -184,21 +184,11 @@ export class Sequence<P extends SequenceProps> extends PluginUIComponent<P> {
         this.mouseDownLoci = undefined;
     };
 
-    protected getBackgroundColor(marker: number, seqIdx?: number) {
+    protected getBackgroundColor(marker: number) {
         // TODO: make marker color configurable
         if (typeof marker === 'undefined') console.error('unexpected marker value');
-
-        const data = window.JsonData;
-        if (data === undefined) console.error('data not loaded');
-        let color = '';
-        for (const entry of data) {
-            if (entry['residue index'] - 1 === seqIdx) {
-                color = entry.optimized ? 'rgb(102, 161, 255)' : 'rgb(255, 102, 102)';
-            }
-        }
-
         return marker === 0
-            ? color // normal
+            ? ''
             : marker % 2 === 0
               ? 'rgb(51, 255, 25)' // selected
               : 'rgb(255, 102, 153)'; // highlighted
@@ -216,7 +206,7 @@ export class Sequence<P extends SequenceProps> extends PluginUIComponent<P> {
             <span
                 key={seqIdx}
                 data-seqid={seqIdx}
-                style={{ backgroundColor: this.getBackgroundColor(marker, seqIdx) }}
+                style={{ backgroundColor: this.getBackgroundColor(marker) }}
                 className={this.getResidueClass(seqIdx, label)}
             >{`\u200b${label}\u200b`}</span>
         );
@@ -284,7 +274,8 @@ export class Sequence<P extends SequenceProps> extends PluginUIComponent<P> {
             //     first = span;
             // }
 
-            const backgroundColor = this.getBackgroundColor(markerArray[i], i);
+            console.log(i);
+            const backgroundColor = this.getBackgroundColor(markerArray[i]);
             if (span.style.backgroundColor !== backgroundColor) span.style.backgroundColor = backgroundColor;
         }
 
