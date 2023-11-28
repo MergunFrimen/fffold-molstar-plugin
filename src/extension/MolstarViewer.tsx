@@ -20,7 +20,7 @@ export function MolstarViewer({ context }: { context: ContextModel }) {
 
     return (
         <div className="flex h-full w-full flex-col">
-            <div className="relative" style={{ height: '100px' }}>
+            <div className="relative" style={{ height: '150px' }}>
                 <PluginContextContainer plugin={context.molstar}>
                     <SequenceView />
                 </PluginContextContainer>

@@ -8,7 +8,6 @@
 import * as React from 'react';
 import { PluginUIComponent } from 'molstar/lib/mol-plugin-ui/base';
 import { PluginStateObject as PSO } from 'molstar/lib/mol-plugin-state/objects';
-import { Sequence } from './original-sequence';
 import { Structure, StructureElement, StructureProperties as SP, Unit } from 'molstar/lib/mol-model/structure';
 import { SequenceWrapper } from 'molstar/lib/mol-plugin-ui/sequence/wrapper';
 import { PolymerSequenceWrapper } from 'molstar/lib/mol-plugin-ui/sequence/polymer';
@@ -24,6 +23,7 @@ import { Icon, HelpOutlineSvg } from 'molstar/lib/mol-plugin-ui/controls/icons';
 import { StructureSelectionManager } from 'molstar/lib/mol-plugin-state/manager/structure/selection';
 import { arrayEqual } from 'molstar/lib/mol-util/array';
 import { SecondaryStructureSequence } from './custom-sequence';
+import { Sequence } from './original-sequence';
 
 const MaxDisplaySequenceLength = 5000;
 // TODO: add virtualized Select controls (at best with a search box)?
@@ -506,7 +506,7 @@ export class SequenceView extends PluginUIComponent<{ defaultMode?: SequenceView
                                     {s.wrapper}
                                 </div>
                             ) : (
-                                <Sequence key={i} sequenceWrapper={s.wrapper} />
+                                <SecondaryStructureSequence key={i} sequenceWrapper={s.wrapper} />
                             );
 
                         if (values.mode === 'single') return elem;
