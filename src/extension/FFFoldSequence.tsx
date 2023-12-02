@@ -10,7 +10,7 @@ type FFFoldSequenceProps = {
 
 export class FFFoldSequence extends Sequence<FFFoldSequenceProps> {
     colors = {
-        optimized: 'rgb(158, 195, 255)',
+        optimized: 'rgb(147, 218, 246)',
         nonOptimized: 'rgb(255, 167, 99)',
         highlighted: 'rgb(255, 102, 153)',
         selected: 'rgb(51, 255, 25)',

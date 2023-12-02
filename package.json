@@ -2,6 +2,8 @@
   "name": "fffold-molstar-plugin",
   "private": true,
   "version": "0.0.0",
+  "description": "Molstar plugin for FFFold application",
+  "author": "Dominik Tichy",
   "type": "module",
   "scripts": {
     "dev": "vite",

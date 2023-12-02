@@ -18,8 +18,8 @@ export function MolstarViewer({ context }: { context: ContextModel }) {
     const MolstarViewport = context.molstar.spec.components?.viewport?.view || DefaultViewport;
 
     return (
-        <div className="flex grow flex-col outline outline-1">
-            <div className="relative h-[150px]">
+        <div className="flex grow h-full w-full flex-col outline outline-1">
+            <div className="relative h-[100px]">
                 <PluginContextContainer plugin={context.molstar}>
                     <SequenceView />
                 </PluginContextContainer>

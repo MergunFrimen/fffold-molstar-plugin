@@ -3,28 +3,13 @@ import { PluginUIContext } from 'molstar/lib/mol-plugin-ui/context';
 import { DefaultPluginUISpec, PluginUISpec } from 'molstar/lib/mol-plugin-ui/spec';
 import { MAQualityAssessment } from 'molstar/lib/extensions/model-archive/quality-assessment/behavior';
 import { PluginSpec } from 'molstar/lib/mol-plugin/spec';
-import optimizedJson from '../../public/optimized.json';
 import { StateObjectSelector } from 'molstar/lib/mol-state';
 import { PluginStateObject } from 'molstar/lib/mol-plugin-state/objects';
 import { PluginCommands } from 'molstar/lib/mol-plugin/commands';
 import { Color } from 'molstar/lib/mol-util/color';
 import { BuiltInTrajectoryFormat } from 'molstar/lib/mol-plugin-state/formats/trajectory';
-import { PLDDTConfidenceColorThemeProvider } from 'molstar/lib/extensions/model-archive/quality-assessment/color/plddt';
-
-interface OptimizedJson {
-    'residue index': number;
-    'residue name': string;
-    optimized: true;
-}
-
-// using the window object to store the data
-// alternative would be to setup a structure provider
-// but that would require a lot of work
-declare global {
-    interface Window {
-        JsonData: OptimizedJson[];
-    }
-}
+import { StructureFocusRepresentation } from 'molstar/lib/mol-plugin/behavior/dynamic/selection/structure-focus-representation';
+import { OptimizedJson } from '../App';
 
 const pluginUISpec: PluginUISpec = {
     ...DefaultPluginUISpec(),
@@ -32,12 +17,16 @@ const pluginUISpec: PluginUISpec = {
 };
 
 export class ContextModel {
-    private optimizedStructureUrl: string;
-    private originalStructureUrl: string;
-    private residueLogsUrl: string;
+    private optimizedStructureUrl: string = '';
+    private originalStructureUrl: string = '';
+    private residueLogsUrl: string = '';
 
     private originalRef: StateObjectSelector<PluginStateObject.Molecule.Structure.Representation3D> | undefined;
     private optimizedRef: StateObjectSelector<PluginStateObject.Molecule.Structure.Representation3D> | undefined;
+
+    private currentView: 'cartoon' | 'ball-and-stick' | 'gaussian-surface' = 'ball-and-stick';
+    private currentColor: 'element-symbol' | 'plddt-confidence' = 'element-symbol';
+    private showOptimized: boolean = true;
 
     molstar: PluginUIContext = new PluginUIContext(pluginUISpec);
 
@@ -92,7 +81,7 @@ export class ContextModel {
         });
     }
 
-    async changeRepresentation(params: any) {
+    async changeRepresentation(params: { color?: any; type?: any; colorParams?: any; typeParams?: any }) {
         this.molstar.dataTransaction(async () => {
             for (const s of this.molstar.managers.structure.hierarchy.current.structures) {
                 const update = this.molstar.state.data.build();
@@ -118,56 +107,61 @@ export class ContextModel {
                 }
                 await update.commit();
             }
+            await this.updateFocusColorTheme(params.color, params.colorParams);
         });
     }
 
-    async changeColorStructure() {
+    async changeView(newView: 'cartoon' | 'ball-and-stick' | 'gaussian-surface') {
+        const previous = this.currentView;
+        this.currentView = newView;
         this.changeRepresentation({
-            color: 'element-symbol',
+            type: newView,
+        });
+        if (this.showOptimized) {
+            if (previous === 'ball-and-stick' && newView !== 'ball-and-stick') {
+                this.toggleOriginalVisibility();
+            }
+            if (previous !== 'ball-and-stick' && newView === 'ball-and-stick') {
+                this.toggleOriginalVisibility();
+            }
+        }
+    }
+
+    async changeColor(newColor: 'element-symbol' | 'plddt-confidence') {
+        this.currentColor = newColor;
+        this.changeRepresentation({
+            color: newColor,
         });
     }
 
-    async changeColorConfidence() {
-        this.changeRepresentation({
-            color: PLDDTConfidenceColorThemeProvider.name,
-        });
+    async toggleVisibility() {
+        this.showOptimized = !this.showOptimized;
+        this.toggleOriginalVisibility();
     }
 
-    async changeTypeBas() {
-        this.changeRepresentation({
-            type: 'ball-and-stick',
-        });
-    }
-
-    async changeTypeCartoon() {
-        this.changeRepresentation({
-            type: 'cartoon',
-        });
-    }
-
-    async changeTypeSurface() {
-        this.changeRepresentation({
-            type: 'gaussian-surface',
+    private async updateFocusColorTheme(color: any, params: any) {
+        await this.molstar.state.updateBehavior(StructureFocusRepresentation, (p) => {
+            p.targetParams.colorTheme = { name: color, params: params || p.targetParams.colorTheme.params };
+            p.surroundingsParams.colorTheme = { name: color, params: params || p.surroundingsParams.colorTheme.params };
         });
     }
 
     async loadResidueLogs() {
-        await fetch(this.optimizedStructureUrl);
-        window.JsonData = optimizedJson as OptimizedJson[];
+        const response = await fetch(this.residueLogsUrl);
+        const data = await response.json();
+        window.JsonData = data as OptimizedJson[];
     }
 
-    async init() {
-        this.loadResidueLogs();
-        await this.molstar.init();
-        this.loadOptimizedStructure();
-        this.loadOriginalStructure();
-    }
-
-    constructor(optimizedStructureUrl: string, originalStructureUrl: string, residueLogsUrl: string) {
+    async init(optimizedStructureUrl: string, originalStructureUrl: string, residueLogsUrl: string) {
         this.optimizedStructureUrl = optimizedStructureUrl;
         this.originalStructureUrl = originalStructureUrl;
         this.residueLogsUrl = residueLogsUrl;
 
-        this.init();
+        await this.loadResidueLogs();
+        await this.molstar.init();
+        await this.loadOptimizedStructure();
+        await this.loadOriginalStructure();
     }
+
+    constructor() {}
 }
