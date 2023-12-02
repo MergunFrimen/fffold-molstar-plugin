@@ -46,8 +46,8 @@ export class ContextModel {
         const structure = await this.loadStructure(this.optimizedStructureUrl, 'mmcif');
         const componentRef = await this.molstar.builders.structure.tryCreateComponentStatic(structure, 'all');
         this.optimizedRef = await this.molstar.builders.structure.representation.addRepresentation(componentRef!, {
-            type: 'ball-and-stick',
-            color: 'element-symbol',
+            type: this.currentView,
+            color: this.currentColor as any,
         });
     }
 
