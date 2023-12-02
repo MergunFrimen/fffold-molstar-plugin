@@ -16,11 +16,10 @@ import 'molstar/lib/mol-plugin-ui/skin/light.scss';
 
 export function MolstarViewer({ context }: { context: ContextModel }) {
     const MolstarViewport = context.molstar.spec.components?.viewport?.view || DefaultViewport;
-    // const SequenceView = context.molstar.spec.components?.sequenceViewer?.view || SequenceView;
 
     return (
-        <div className="flex h-full w-full flex-col">
-            <div className="relative" style={{ height: '150px' }}>
+        <div className="flex grow flex-col outline outline-1">
+            <div className="relative h-[150px]">
                 <PluginContextContainer plugin={context.molstar}>
                     <SequenceView />
                 </PluginContextContainer>

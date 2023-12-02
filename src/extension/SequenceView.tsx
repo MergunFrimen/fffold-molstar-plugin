@@ -5,25 +5,24 @@
  * @author David Sehnal <david.sehnal@gmail.com>
  */
 
-import * as React from 'react';
-import { PluginUIComponent } from 'molstar/lib/mol-plugin-ui/base';
+import { StructureProperties as SP, Structure, StructureElement, Unit } from 'molstar/lib/mol-model/structure';
+import { StructureSelectionManager } from 'molstar/lib/mol-plugin-state/manager/structure/selection';
 import { PluginStateObject as PSO } from 'molstar/lib/mol-plugin-state/objects';
-import { Structure, StructureElement, StructureProperties as SP, Unit } from 'molstar/lib/mol-model/structure';
-import { SequenceWrapper } from 'molstar/lib/mol-plugin-ui/sequence/wrapper';
-import { PolymerSequenceWrapper } from 'molstar/lib/mol-plugin-ui/sequence/polymer';
-import { MarkerAction } from 'molstar/lib/mol-util/marker-action';
+import { PluginUIComponent } from 'molstar/lib/mol-plugin-ui/base';
+import { HelpOutlineSvg, Icon } from 'molstar/lib/mol-plugin-ui/controls/icons';
 import { PureSelectControl } from 'molstar/lib/mol-plugin-ui/controls/parameters';
-import { ParamDefinition as PD } from 'molstar/lib/mol-util/param-definition';
-import { HeteroSequenceWrapper } from 'molstar/lib/mol-plugin-ui/sequence/hetero';
-import { State, StateSelection } from 'molstar/lib/mol-state';
 import { ChainSequenceWrapper } from 'molstar/lib/mol-plugin-ui/sequence/chain';
 import { ElementSequenceWrapper } from 'molstar/lib/mol-plugin-ui/sequence/element';
+import { HeteroSequenceWrapper } from 'molstar/lib/mol-plugin-ui/sequence/hetero';
+import { PolymerSequenceWrapper } from 'molstar/lib/mol-plugin-ui/sequence/polymer';
+import { SequenceWrapper } from 'molstar/lib/mol-plugin-ui/sequence/wrapper';
+import { State, StateSelection } from 'molstar/lib/mol-state';
 import { elementLabel } from 'molstar/lib/mol-theme/label';
-import { Icon, HelpOutlineSvg } from 'molstar/lib/mol-plugin-ui/controls/icons';
-import { StructureSelectionManager } from 'molstar/lib/mol-plugin-state/manager/structure/selection';
 import { arrayEqual } from 'molstar/lib/mol-util/array';
-import { SecondaryStructureSequence } from './custom-sequence';
-import { Sequence } from './original-sequence';
+import { MarkerAction } from 'molstar/lib/mol-util/marker-action';
+import { ParamDefinition as PD } from 'molstar/lib/mol-util/param-definition';
+import * as React from 'react';
+import { FFFoldSequence } from './FFFoldSequence';
 
 const MaxDisplaySequenceLength = 5000;
 // TODO: add virtualized Select controls (at best with a search box)?
@@ -506,7 +505,7 @@ export class SequenceView extends PluginUIComponent<{ defaultMode?: SequenceView
                                     {s.wrapper}
                                 </div>
                             ) : (
-                                <SecondaryStructureSequence key={i} sequenceWrapper={s.wrapper} />
+                                <FFFoldSequence key={i} sequenceWrapper={s.wrapper} />
                             );
 
                         if (values.mode === 'single') return elem;

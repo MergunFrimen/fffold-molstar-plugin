@@ -1,56 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { MolstarViewer } from './extension/MolstarViewer';
 import { ContextModel } from './models/context-model';
 ('./extension/Context');
 
-interface OptimizedJson {
-    'residue index': number;
-    'residue name': string;
-    optimized: true;
-}
-
-declare global {
-    interface Window {
-        ContextModel: ContextModel;
-        JsonData: OptimizedJson[];
-    }
-}
-
 export default function App() {
-    // const context = useRef<ContextModel>();
-    // if (!context.current) context.current = new ContextModel();
-
-    const [render, setRender] = useState<boolean>(false);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('optimized.json');
-                const result = await response.json();
-                window.JsonData = result;
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        const initMolstar = async () => {
-            const context = new ContextModel();
-            window.ContextModel = context;
-        };
-
-        fetchData().catch(console.error);
-        initMolstar().catch(console.error);
-        setRender(true);
-    }, []);
+    const context = useRef<ContextModel>();
+    if (!context.current) context.current = new ContextModel('./optimized2.cif', './original.pdb', 'A');
 
     return (
-        <div className="h-screen w-screen p-5">
-            <div className="flex flex-col">
-                <ViewControls />
+        <div className="h-screen w-screen">
+            <div className="flex h-full max-h-full w-full max-w-full flex-col">
+                <ViewControls context={context.current} />
                 <hr className="my-4" />
-                <div className="h-[800px] w-full outline outline-1">
-                    {render && <MolstarViewer context={window.ContextModel} />}
-                </div>
+                <MolstarViewer context={context.current} />
             </div>
         </div>
     );
@@ -79,10 +41,52 @@ function Input({
     );
 }
 
-function ViewControls() {
-    const [view, setView] = useState<'cartoon' | 'bas' | 'surface'>('cartoon');
+function ViewControls({ context }: { context: ContextModel }) {
+    const [view, setView] = useState<'cartoon' | 'bas' | 'surface'>('bas');
     const [coloring, setColoring] = useState<'structure' | 'confidence'>('structure');
-    const [showOptimized, setShowOptimized] = useState<boolean>(false);
+    const [showOptimized, setShowOptimized] = useState<boolean>(true);
+
+    function handleViewChange(newView: 'cartoon' | 'bas' | 'surface') {
+        const previous = view;
+        setView(newView);
+        switch (newView) {
+            case 'cartoon':
+                context.changeTypeCartoon();
+                break;
+            case 'bas':
+                context.changeTypeBas();
+                break;
+            case 'surface':
+                context.changeTypeSurface();
+                break;
+        }
+        if (showOptimized) {
+            if (previous === 'bas' && newView !== 'bas') {
+                context.toggleOriginalVisibility();
+            }
+            if (previous !== 'bas' && newView === 'bas') {
+                context.toggleOriginalVisibility();
+            }
+        }
+    }
+
+    function handleColorChange(newColor: 'structure' | 'confidence') {
+        console.log('fire');
+        setColoring(newColor);
+        switch (newColor) {
+            case 'structure':
+                context.changeColorStructure();
+                break;
+            case 'confidence':
+                context.changeColorConfidence();
+                break;
+        }
+    }
+
+    function handleOptimizedChange() {
+        setShowOptimized(!showOptimized);
+        context.toggleOriginalVisibility();
+    }
 
     return (
         <div className="flex flex-row">
@@ -94,7 +98,7 @@ function ViewControls() {
                     id="view_cartoon"
                     value="Cartoon"
                     title="Cartoon representation."
-                    onChange={() => setView('cartoon')}
+                    onChange={() => handleViewChange('cartoon')}
                     checked={view === 'cartoon'}
                 />
 
@@ -103,7 +107,7 @@ function ViewControls() {
                     id="view_surface"
                     value="Surface"
                     title="Surface representation."
-                    onChange={() => setView('surface')}
+                    onChange={() => handleViewChange('surface')}
                     checked={view === 'surface'}
                 />
 
@@ -112,7 +116,7 @@ function ViewControls() {
                     id="view_bas"
                     value="Ball &amp; Stick"
                     title="Ball &amp; Stick representation."
-                    onChange={() => setView('bas')}
+                    onChange={() => handleViewChange('bas')}
                     checked={view === 'bas'}
                 />
 
@@ -120,7 +124,7 @@ function ViewControls() {
                     <input
                         type="checkbox"
                         id="view_non_optimized"
-                        onChange={() => setShowOptimized(!showOptimized)}
+                        onChange={handleOptimizedChange}
                         checked={showOptimized}
                         disabled={view !== 'bas'}
                     />
@@ -136,7 +140,7 @@ function ViewControls() {
                     id="colors_structure"
                     value="Structure"
                     title="Use coloring based on the structure"
-                    onChange={() => setColoring('structure')}
+                    onChange={() => handleColorChange('structure')}
                     checked={coloring === 'structure'}
                 />
 
@@ -145,7 +149,7 @@ function ViewControls() {
                     id="coloring_confidence"
                     value="Model confidence"
                     title="Use coloring based on AlphaFold model confidence (according pLDDT score)."
-                    onChange={() => setColoring('confidence')}
+                    onChange={() => handleColorChange('confidence')}
                     checked={coloring === 'confidence'}
                 />
             </div>
