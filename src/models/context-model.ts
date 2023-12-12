@@ -81,7 +81,10 @@ export class ContextModel {
         });
     }
 
-    async changeRepresentation(params: { color?: any; type?: any; colorParams?: any; typeParams?: any }) {
+    async changeRepresentation(
+        params: { color?: any; type?: any; colorParams?: any; typeParams?: any },
+        color?: boolean
+    ) {
         this.molstar.dataTransaction(async () => {
             for (const s of this.molstar.managers.structure.hierarchy.current.structures) {
                 const update = this.molstar.state.data.build();
@@ -107,7 +110,7 @@ export class ContextModel {
                 }
                 await update.commit();
             }
-            await this.updateFocusColorTheme(params.color, params.colorParams);
+            if (color) await this.updateFocusColorTheme(params.color, params.colorParams);
         });
     }
 
@@ -129,12 +132,17 @@ export class ContextModel {
 
     async changeColor(newColor: 'element-symbol' | 'plddt-confidence') {
         this.currentColor = newColor;
-        this.changeRepresentation({
-            color: newColor,
-        });
+        this.changeRepresentation(
+            {
+                color: newColor,
+            },
+            true
+        );
     }
 
     async toggleVisibility() {
+        if (this.currentView !== 'ball-and-stick') return;
+
         this.showOptimized = !this.showOptimized;
         this.toggleOriginalVisibility();
     }
