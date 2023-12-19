@@ -9,7 +9,7 @@ import { PluginCommands } from 'molstar/lib/mol-plugin/commands';
 import { Color } from 'molstar/lib/mol-util/color';
 import { BuiltInTrajectoryFormat } from 'molstar/lib/mol-plugin-state/formats/trajectory';
 import { StructureFocusRepresentation } from 'molstar/lib/mol-plugin/behavior/dynamic/selection/structure-focus-representation';
-import { OptimizedJson } from '../App';
+import { OptimizedJson } from '..';
 
 const pluginUISpec: PluginUISpec = {
     ...DefaultPluginUISpec(),
