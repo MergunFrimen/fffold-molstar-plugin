@@ -2,186 +2,223 @@
   {
     "residue index": 1,
     "residue name": "F",
-    "optimized": true
+    "category": "Highly optimized rezidue",
+    "residual_rmsd": 1.515742591237612
   },
   {
     "residue index": 2,
     "residue name": "R",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.47214618233911526
   },
   {
     "residue index": 3,
     "residue name": "G",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.16895677825299896
   },
   {
     "residue index": 4,
     "residue name": "R",
-    "optimized": true
+    "category": "Highly optimized rezidue",
+    "residual_rmsd": 0.9975785502240851
   },
   {
     "residue index": 5,
     "residue name": "D",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.18176010116809152
   },
   {
     "residue index": 6,
     "residue name": "A",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.2918666465990919
   },
   {
     "residue index": 7,
     "residue name": "A",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.2891544848651056
   },
   {
     "residue index": 8,
     "residue name": "A",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.10299601990184036
   },
   {
     "residue index": 9,
     "residue name": "K",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.3991697974404113
   },
   {
     "residue index": 10,
     "residue name": "A",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.15740132867303883
   },
   {
     "residue index": 11,
     "residue name": "S",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.1801370718707574
   },
   {
     "residue index": 12,
     "residue name": "G",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.08506233916593281
   },
   {
     "residue index": 13,
     "residue name": "L",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.2252208983369487
   },
   {
     "residue index": 14,
     "residue name": "V",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.3949981591079711
   },
   {
     "residue index": 15,
     "residue name": "G",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.18209014834723206
   },
   {
     "residue index": 16,
     "residue name": "L",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.24033619210604062
   },
   {
     "residue index": 17,
     "residue name": "T",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.3658991999988302
   },
   {
     "residue index": 18,
     "residue name": "D",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.3461576695541804
   },
   {
     "residue index": 19,
     "residue name": "R",
-    "optimized": true
+    "category": "Highly optimized rezidue",
+    "residual_rmsd": 1.3607400055228067
   },
   {
     "residue index": 20,
     "residue name": "R",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.1325332271528613
   },
   {
     "residue index": 21,
     "residue name": "G",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.04850791842301155
   },
   {
     "residue index": 22,
     "residue name": "C",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.16339526869474894
   },
   {
     "residue index": 23,
     "residue name": "C",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.07055874471473794
   },
   {
     "residue index": 24,
     "residue name": "S",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.09744329757929576
   },
   {
     "residue index": 25,
     "residue name": "H",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.3134447714228977
   },
   {
     "residue index": 26,
     "residue name": "P",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.3301044882454494
   },
   {
     "residue index": 27,
     "residue name": "A",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.13902040969147153
   },
   {
     "residue index": 28,
     "residue name": "C",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.14665964449342228
   },
   {
     "residue index": 29,
     "residue name": "N",
-    "optimized": true
+    "category": "Highly optimized rezidue",
+    "residual_rmsd": 0.6920222582462237
   },
   {
     "residue index": 30,
     "residue name": "V",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.36799382409842823
   },
   {
     "residue index": 31,
     "residue name": "D",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.16733575171962226
   },
   {
     "residue index": 32,
     "residue name": "H",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.13977121445444413
   },
   {
     "residue index": 33,
     "residue name": "P",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.33348216554543525
   },
   {
     "residue index": 34,
     "residue name": "E",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.16936151653984247
   },
   {
     "residue index": 35,
     "residue name": "I",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.18528345064698004
   },
   {
     "residue index": 36,
     "residue name": "C",
-    "optimized": true
+    "category": "Optimized rezidue",
+    "residual_rmsd": 0.14071118737681057
   },
   {
     "residue index": 37,
     "residue name": "G",
-    "optimized": true
+    "category": "Highly optimized rezidue",
+    "residual_rmsd": 1.3451875425319262
   }
 ]
