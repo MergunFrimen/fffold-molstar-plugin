@@ -4,10 +4,11 @@ import './index.css';
 import TestApp from './TestApp.tsx';
 import { ContextModel } from './models/context-model.ts';
 
+export type OptimizedCategory = 'Highly optimized rezidue' | 'Optimized rezidue' | 'Not optimized residue';
 export interface OptimizedJson {
     'residue index': number;
     'residue name': string;
-    optimized: true;
+    category: OptimizedCategory;
 }
 
 declare global {
