@@ -1,6 +1,7 @@
 import { Sequence } from 'molstar/lib/mol-plugin-ui/sequence/sequence';
 import { SequenceWrapper } from 'molstar/lib/mol-plugin-ui/sequence/wrapper';
 import { UUID } from 'molstar/lib/mol-util';
+import { OptimizedCategory } from '../index';
 
 type FFFoldSequenceProps = {
     sequenceWrapper: SequenceWrapper.Any;
@@ -9,9 +10,12 @@ type FFFoldSequenceProps = {
 };
 
 export class FFFoldSequence extends Sequence<FFFoldSequenceProps> {
-    colors = {
-        optimized: 'rgb(147, 218, 246)',
-        nonOptimized: 'rgb(255, 167, 99)',
+    categoryColorMap: Record<OptimizedCategory, string> = {
+        'Highly optimized rezidue': 'rgb(90, 155, 256)',
+        'Optimized rezidue': 'rgb(147, 218, 246)',
+        'Not optimized residue': 'rgb(255, 167, 99)',
+    };
+    otherColors = {
         highlighted: 'rgb(255, 102, 153)',
         selected: 'rgb(51, 255, 25)',
     };
@@ -40,16 +44,18 @@ export class FFFoldSequence extends Sequence<FFFoldSequenceProps> {
         }
         for (const entry of data) {
             if (entry['residue index'] - 1 === seqIdx) {
-                color = entry.optimized ? this.colors.optimized : this.colors.nonOptimized;
+                const category = entry['category'];
+                color = this.categoryColorMap[category];
+                console.log(color);
             }
         }
 
         if (marker === 0) {
             return color;
         } else if (marker % 2 === 0) {
-            return this.colors.selected;
+            return this.otherColors.selected;
         } else {
-            return this.colors.highlighted;
+            return this.otherColors.highlighted;
         }
     }
 
@@ -62,13 +68,24 @@ export class FFFoldSequence extends Sequence<FFFoldSequenceProps> {
             <div key={UUID.createv4()} className="mb-3 flex flex-row gap-x-3">
                 <div className="msp-sequence-secondary flex flex-row items-baseline gap-x-2">
                     <svg width="10" height="10">
-                        <rect width="10" height="10" style={{ fill: this.colors.optimized }} />
+                        <rect
+                            width="10"
+                            height="10"
+                            style={{ fill: this.categoryColorMap['Highly optimized rezidue'] }}
+                        />
+                    </svg>
+                    <div>Highly optimized rezidue</div>
+                </div>
+
+                <div className="msp-sequence-secondary flex flex-row items-baseline gap-x-2">
+                    <svg width="10" height="10">
+                        <rect width="10" height="10" style={{ fill: this.categoryColorMap['Optimized rezidue'] }} />
                     </svg>
                     <div>Optimized residue</div>
                 </div>
                 <div className="msp-sequence-secondary flex flex-row items-baseline gap-x-2">
                     <svg width="10" height="10">
-                        <rect width="10" height="10" style={{ fill: this.colors.nonOptimized }} />
+                        <rect width="10" height="10" style={{ fill: this.categoryColorMap['Not optimized residue'] }} />
                     </svg>
                     <div>Not optimized residue</div>
                 </div>
