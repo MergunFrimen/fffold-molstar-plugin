@@ -46,7 +46,6 @@ export class FFFoldSequence extends Sequence<FFFoldSequenceProps> {
             if (entry['residue index'] - 1 === seqIdx) {
                 const category = entry['category'];
                 color = this.categoryColorMap[category];
-                console.log(color);
             }
         }
 
